@@ -4,14 +4,20 @@ SetBatchLines -1
 
 toggle := false
 
-; F8: BẬT / TẮT Macro
+; F8: BẬT Macro
 F8::
-    toggle := !toggle
-    if (toggle) {
+    if (!toggle) {
+        toggle := true
         ToolTip, MACRO: DANG BAT (Auto Shift + W)
         SetTimer, RemoveToolTip, -1000
         Send {Shift down}{w down}
-    } else {
+    }
+return
+
+; F12: TẮT Macro
+F12::
+    if (toggle) {
+        toggle := false
         ToolTip, MACRO: DA TAT
         SetTimer, RemoveToolTip, -1000
         Send {w up}{Shift up}
@@ -23,11 +29,11 @@ return
     if (toggle) {
         Send {w up}{Shift up}     ; Thả Shift và W ra
         Sleep, 100
-        Loop, 20 {
+        Loop, 10 {
             Send {e down}         ; Giữ E
             Sleep, 50             ; Giữ 0.05s để GTA 5 kịp nhận phím
             Send {e up}           ; Thả E
-            Sleep, 450            ; Chờ 0.45s (Tổng delay đúng 0.5s)
+            Sleep, 50            ; Chờ 0.45s (Tổng delay đúng 0.5s)
         }
         Send {Shift down}{w down} ; Đè lại Shift + W
     } else {
@@ -39,11 +45,11 @@ return
     if (toggle) {
         Send {w up}{Shift up}     ; Thả Shift và W ra
         Sleep, 100
-        Loop, 20 {
+        Loop, 15 {
             Send {f down}
             Sleep, 50
             Send {f up}
-            Sleep, 450
+            Sleep, 50
         }
         Send {Shift down}{w down} ; Đè lại Shift + W
     } else {
@@ -55,11 +61,11 @@ return
     if (toggle) {
         Send {w up}{Shift up}     ; Thả Shift và W ra
         Sleep, 100
-        Loop, 20 {
+        Loop, 15 {
             Send {y down}
             Sleep, 50
             Send {y up}
-            Sleep, 450
+            Sleep, 50
         }
         Send {Shift down}{w down} ; Đè lại Shift + W
     } else {
