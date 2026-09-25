@@ -4,59 +4,59 @@ SetBatchLines -1
 
 toggle := false
 
-; Bấm F8 để BẬT / TẮT chế độ tự đè phím W
+; Nhấn F8 để BẬT / TẮT Macro (Tự đè Shift + W)
 F8::
     toggle := !toggle
     if (toggle) {
-        ToolTip, MACRO: DANG BAT (Dang de W)
+        ToolTip, MACRO: DANG BAT (Dang de Shift + W)
         SetTimer, RemoveToolTip, -1000
-        Send {w down}
+        Send {Shift down}{w down}
     } else {
         ToolTip, MACRO: DA TAT
         SetTimer, RemoveToolTip, -1000
-        Send {w up}
+        Send {w up}{Shift up}
     }
 return
 
-; Khi bạn chủ động bấm phím E
+; Khi bạn bấm phím E
 $e::
     if (toggle) {
-        Send {w up}       ; Tạm nhả phím W
+        Send {w up}{Shift up}     ; Tạm thời thả Shift và W
         Loop, 20 {
-            Send {e}      ; Nhấn E 20 lần
-            Sleep, 20     ; Độ trễ 20ms
+            Send {e}              ; Nhấn phím E 20 lần
+            Sleep, 20             ; Độ trễ 20ms giữa các lần nhấn
         }
-        Send {w down}     ; Đè phím W trở lại
+        Send {Shift down}{w down} ; Đè lại Shift + W
     } else {
-        Send e            ; Khi chưa bật F8 thì phím E hoạt động bình thường
+        Send e                    ; Nhấn E bình thường khi tắt macro
     }
 return
 
-; Khi bạn chủ động bấm phím F
+; Khi bạn bấm phím F
 $f::
     if (toggle) {
-        Send {w up}       ; Tạm nhả phím W
+        Send {w up}{Shift up}     ; Tạm thời thả Shift và W
         Loop, 20 {
-            Send {f}      ; Nhấn F 20 lần
+            Send {f}              ; Nhấn phím F 20 lần
             Sleep, 20
         }
-        Send {w down}     ; Đè phím W trở lại
+        Send {Shift down}{w down} ; Đè lại Shift + W
     } else {
-        Send f            ; Khi chưa bật F8 thì phím F hoạt động bình thường
+        Send f                    ; Nhấn F bình thường khi tắt macro
     }
 return
 
-; Khi bạn chủ động bấm phím Y
+; Khi bạn bấm phím Y
 $y::
     if (toggle) {
-        Send {w up}       ; Tạm nhả phím W
+        Send {w up}{Shift up}     ; Tạm thời thả Shift và W
         Loop, 20 {
-            Send {y}      ; Nhấn Y 20 lần
+            Send {y}              ; Nhấn phím Y 20 lần
             Sleep, 20
         }
-        Send {w down}     ; Đè phím W trở lại
+        Send {Shift down}{w down} ; Đè lại Shift + W
     } else {
-        Send y            ; Khi chưa bật F8 thì phím Y hoạt động bình thường
+        Send y                    ; Nhấn Y bình thường khi tắt macro
     }
 return
 
