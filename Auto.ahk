@@ -4,11 +4,11 @@ SetBatchLines -1
 
 toggle := false
 
-; Nhấn F8 để BẬT / TẮT Macro (Tự đè Shift + W)
+; Bấm F8 để BẬT / TẮT Macro (Auto đè Shift + W)
 F8::
     toggle := !toggle
     if (toggle) {
-        ToolTip, MACRO: DANG BAT (Dang de Shift + W)
+        ToolTip, MACRO: DANG BAT (Auto Shift + W)
         SetTimer, RemoveToolTip, -1000
         Send {Shift down}{w down}
     } else {
@@ -23,12 +23,12 @@ $e::
     if (toggle) {
         Send {w up}{Shift up}     ; Tạm thời thả Shift và W
         Loop, 20 {
-            Send {e}              ; Nhấn phím E 20 lần
-            Sleep, 20             ; Độ trễ 20ms giữa các lần nhấn
+            Send {e}              ; Bấm E
+            Sleep, 500            ; Delay 0,5 giây (500ms)
         }
-        Send {Shift down}{w down} ; Đè lại Shift + W
+        Send {Shift down}{w down} ; Tự đè lại Shift + W
     } else {
-        Send e                    ; Nhấn E bình thường khi tắt macro
+        Send e
     }
 return
 
@@ -37,12 +37,12 @@ $f::
     if (toggle) {
         Send {w up}{Shift up}     ; Tạm thời thả Shift và W
         Loop, 20 {
-            Send {f}              ; Nhấn phím F 20 lần
-            Sleep, 20
+            Send {f}              ; Bấm F
+            Sleep, 500            ; Delay 0,5 giây (500ms)
         }
-        Send {Shift down}{w down} ; Đè lại Shift + W
+        Send {Shift down}{w down} ; Tự đè lại Shift + W
     } else {
-        Send f                    ; Nhấn F bình thường khi tắt macro
+        Send f
     }
 return
 
@@ -51,12 +51,12 @@ $y::
     if (toggle) {
         Send {w up}{Shift up}     ; Tạm thời thả Shift và W
         Loop, 20 {
-            Send {y}              ; Nhấn phím Y 20 lần
-            Sleep, 20
+            Send {y}              ; Bấm Y
+            Sleep, 500            ; Delay 0,5 giây (500ms)
         }
-        Send {Shift down}{w down} ; Đè lại Shift + W
+        Send {Shift down}{w down} ; Tự đè lại Shift + W
     } else {
-        Send y                    ; Nhấn Y bình thường khi tắt macro
+        Send y
     }
 return
 
