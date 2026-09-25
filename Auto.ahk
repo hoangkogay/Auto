@@ -29,7 +29,7 @@ return
     if (toggle) {
         Send {w up}{Shift up}     ; Thả Shift và W ra
         Sleep, 100
-        Loop, 10 {
+        Loop, 16 {
             Send {e down}         ; Giữ E
             Sleep, 50             ; Giữ 0.05s để GTA 5 kịp nhận phím
             Send {e up}           ; Thả E
@@ -45,7 +45,7 @@ return
     if (toggle) {
         Send {w up}{Shift up}     ; Thả Shift và W ra
         Sleep, 100
-        Loop, 15 {
+        Loop, 16 {
             Send {f down}
             Sleep, 50
             Send {f up}
@@ -61,7 +61,7 @@ return
     if (toggle) {
         Send {w up}{Shift up}     ; Thả Shift và W ra
         Sleep, 100
-        Loop, 15 {
+        Loop, 16 {
             Send {y down}
             Sleep, 50
             Send {y up}
