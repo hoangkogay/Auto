@@ -4,7 +4,7 @@ SetBatchLines -1
 
 toggle := false
 
-; Bấm F8 để BẬT / TẮT Macro (Auto đè Shift + W)
+; F8: BẬT / TẮT Macro
 F8::
     toggle := !toggle
     if (toggle) {
@@ -18,45 +18,52 @@ F8::
     }
 return
 
-; Khi bạn bấm phím E
-$e::
+; Ký tự '*' giúp nhận phím E kể cả khi đang giữ phím Shift
+*$e::
     if (toggle) {
-        Send {w up}{Shift up}     ; Tạm thời thả Shift và W
+        Send {w up}{Shift up}     ; Thả Shift và W ra
+        Sleep, 100
         Loop, 20 {
-            Send {e}              ; Bấm E
-            Sleep, 500            ; Delay 0,5 giây (500ms)
+            Send {e down}         ; Giữ E
+            Sleep, 50             ; Giữ 0.05s để GTA 5 kịp nhận phím
+            Send {e up}           ; Thả E
+            Sleep, 450            ; Chờ 0.45s (Tổng delay đúng 0.5s)
         }
-        Send {Shift down}{w down} ; Tự đè lại Shift + W
+        Send {Shift down}{w down} ; Đè lại Shift + W
     } else {
-        Send e
+        Send {e}
     }
 return
 
-; Khi bạn bấm phím F
-$f::
+*$f::
     if (toggle) {
-        Send {w up}{Shift up}     ; Tạm thời thả Shift và W
+        Send {w up}{Shift up}     ; Thả Shift và W ra
+        Sleep, 100
         Loop, 20 {
-            Send {f}              ; Bấm F
-            Sleep, 500            ; Delay 0,5 giây (500ms)
+            Send {f down}
+            Sleep, 50
+            Send {f up}
+            Sleep, 450
         }
-        Send {Shift down}{w down} ; Tự đè lại Shift + W
+        Send {Shift down}{w down} ; Đè lại Shift + W
     } else {
-        Send f
+        Send {f}
     }
 return
 
-; Khi bạn bấm phím Y
-$y::
+*$y::
     if (toggle) {
-        Send {w up}{Shift up}     ; Tạm thời thả Shift và W
+        Send {w up}{Shift up}     ; Thả Shift và W ra
+        Sleep, 100
         Loop, 20 {
-            Send {y}              ; Bấm Y
-            Sleep, 500            ; Delay 0,5 giây (500ms)
+            Send {y down}
+            Sleep, 50
+            Send {y up}
+            Sleep, 450
         }
-        Send {Shift down}{w down} ; Tự đè lại Shift + W
+        Send {Shift down}{w down} ; Đè lại Shift + W
     } else {
-        Send y
+        Send {y}
     }
 return
 
