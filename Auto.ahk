@@ -29,11 +29,11 @@ return
     if (toggle) {
         Send {w up}{Shift up}     ; Thả Shift và W ra
         Sleep, 100
-        Loop, 16 {
+        Loop, 30 {
             Send {e down}         ; Giữ E
             Sleep, 50             ; Giữ 0.05s để GTA 5 kịp nhận phím
             Send {e up}           ; Thả E
-            Sleep, 50            ; Chờ 0.45s (Tổng delay đúng 0.5s)
+            Sleep, 100            ; Chờ 0.45s (Tổng delay đúng 0.5s)
         }
         Send {Shift down}{w down} ; Đè lại Shift + W
     } else {
@@ -45,11 +45,11 @@ return
     if (toggle) {
         Send {w up}{Shift up}     ; Thả Shift và W ra
         Sleep, 100
-        Loop, 16 {
+        Loop, 30 {
             Send {f down}
             Sleep, 50
             Send {f up}
-            Sleep, 50
+            Sleep, 100
         }
         Send {Shift down}{w down} ; Đè lại Shift + W
     } else {
@@ -61,11 +61,11 @@ return
     if (toggle) {
         Send {w up}{Shift up}     ; Thả Shift và W ra
         Sleep, 100
-        Loop, 16 {
+        Loop, 30 {
             Send {y down}
             Sleep, 50
             Send {y up}
-            Sleep, 50
+            Sleep, 100
         }
         Send {Shift down}{w down} ; Đè lại Shift + W
     } else {
