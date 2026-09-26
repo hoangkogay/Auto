@@ -23,6 +23,17 @@ return
     if (toggle) {
         Send {w up}{Shift up}     ; Thả Shift và W ra
         Sleep, 100
+
+        ; --- BƯỚC 1: BẤM E LẦN 1 ĐỂ BẮT ĐẦU NHẬN NHIỆM VỤ ---
+        Send {e down}
+        Sleep, 50
+        Send {e up}
+
+        ; --- BƯỚC 2: CHỜ GAME HIỆN KHUNG/NÚT (E/F/Y) ---
+        ; Có thể chỉnh lại thời gian chờ (800 = 0.8 giây) nếu game lag hoặc load nhanh/chậm
+        Sleep, 800 
+
+        ; --- BƯỚC 3: SPAM PHÍM E LÀM NHIỆM VỤ ---
         Loop, 20 {
             Send {e down}         ; Giữ E
             Sleep, 50             ; Giữ 0.05s để GTA 5 kịp nhận phím
