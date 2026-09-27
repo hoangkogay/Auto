@@ -3,57 +3,48 @@
 SetBatchLines -1
 
 toggle := false
-waitingForChoice := false  ; Trạng thái chờ bạn bấm chọn phím E/F/Y
+hasJob := false  ; Trạng thái: false = chưa nhận NV, true = đã nhận NV
 
 ; F8: BẬT / TẮT Macro
 F8::
     toggle := !toggle
+    hasJob := false
     if (toggle) {
-        waitingForChoice := false
         ToolTip, MACRO: DANG BAT (Auto Shift + W)
         SetTimer, RemoveToolTip, -1000
         Send {Shift down}{w down}
     } else {
-        waitingForChoice := false
         ToolTip, MACRO: DA TAT
         SetTimer, RemoveToolTip, -1000
         Send {w up}{Shift up}
     }
 return
 
-; F12: TẮT Khẩn cấp (Reset toàn bộ)
-F12::
-    toggle := false
-    waitingForChoice := false
-    Send {w up}{Shift up}{e up}{f up}{y up}
-    ToolTip, MACRO: DA TAT (F12)
-    SetTimer, RemoveToolTip, -1000
-    Reload
-return
-
-; --- PHÍM E ---
+; Ký tự '*' giúp nhận phím kể cả khi đang giữ Shift
 *$e::
     if (toggle) {
-        if (!waitingForChoice) {
-            ; LẦN 1: Bạn tự ấn E -> Thả Shift + W -> Gửi 1 phím E mở nhiệm vụ
-            Send {w up}{Shift up}
-            Send {e}
-            waitingForChoice := true  ; Đã dừng chạy, chuyển sang chờ bạn chọn E/F/Y
+        if (!hasJob) {
+            ; --- LẦN 1: Ấn E chỉ để kích hoạt nhận nhiệm vụ ---
+            hasJob := true
+            Send {w up}{Shift up}     ; Thả Shift và W ra
+            Sleep, 50
+            Send {e down}             ; Ấn E 1 lần
+            Sleep, 50
+            Send {e up}
+            ; Lúc này game sẽ hiện nút E, F hoặc Y. Macro đứng chờ bạn ấn nút tiếp theo.
         } else {
-            ; LẦN 2: Bạn bấm chọn E -> Spam E 20 lần -> Tự đè lại Shift + W
-            SpamKey("e")
+            ; --- LẦN 2: Đã nhận NV -> Ấn E lần nữa sẽ spam 20 lần ---
+            DoSpamLoop("e")
         }
     } else {
         Send {e}
     }
 return
 
-; --- PHÍM F ---
 *$f::
     if (toggle) {
-        if (waitingForChoice) {
-            ; Bạn bấm chọn F -> Spam F 20 lần -> Tự đè lại Shift + W
-            SpamKey("f")
+        if (hasJob) {
+            DoSpamLoop("f")
         } else {
             Send {f}
         }
@@ -62,12 +53,10 @@ return
     }
 return
 
-; --- PHÍM Y ---
 *$y::
     if (toggle) {
-        if (waitingForChoice) {
-            ; Bạn bấm chọn Y -> Spam Y 20 lần -> Tự đè lại Shift + W
-            SpamKey("y")
+        if (hasJob) {
+            DoSpamLoop("y")
         } else {
             Send {y}
         }
@@ -76,21 +65,19 @@ return
     }
 return
 
-; Hàm thực hiện spam 20 lần và đè lại Shift + W khi hoàn thành
-SpamKey(k) {
-    global toggle, waitingForChoice
+; Hàm thực hiện vòng lặp spam 20 lần và tự động chạy tiếp (Shift + W)
+DoSpamLoop(key) {
+    global hasJob
+    Send {w up}{Shift up}         ; Đảm bảo thả Shift và W
+    Sleep, 100
     Loop, 40 {
-        if (!toggle)
-            break
-        Send {%k% down}
+        Send % "{" key " down}"   ; Giữ phím (E/F/Y)
         Sleep, 50
-        Send {%k% up}
+        Send % "{" key " up}"     ; Thả phím
         Sleep, 50
     }
-    waitingForChoice := false
-    if (toggle) {
-        Send {Shift down}{w down}  ; Đè lại Shift + W để tiếp tục chạy
-    }
+    hasJob := false               ; Reset lại trạng thái để điểm NV tiếp theo lặp lại quy trình
+    Send {Shift down}{w down}     ; Tự động đè lại Shift + W để chạy tiếp
 }
 
 RemoveToolTip:
