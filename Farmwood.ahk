@@ -3,81 +3,107 @@
 SetBatchLines -1
 
 toggle := false
-hasJob := false  ; Trạng thái: false = chưa nhận NV, true = đã nhận NV
+inMenu := false  ; Biến kiểm tra trạng thái menu tương tác đã mở chưa
 
 ; F8: BẬT / TẮT Macro
 F8::
     toggle := !toggle
-    hasJob := false
     if (toggle) {
+        inMenu := false
         ToolTip, MACRO: DANG BAT (Auto Shift + W)
         SetTimer, RemoveToolTip, -1000
         Send {Shift down}{w down}
     } else {
+        inMenu := false
         ToolTip, MACRO: DA TAT
         SetTimer, RemoveToolTip, -1000
         Send {w up}{Shift up}
     }
 return
 
-; Ký tự '*' giúp nhận phím kể cả khi đang giữ Shift
+; F12: TẮT Khẩn cấp (Hủy mọi hành động và reset)
+F12::
+    toggle := false
+    inMenu := false
+    Send {w up}{Shift up}{e up}{f up}{y up}
+    ToolTip, MACRO: DA TAT (F12)
+    SetTimer, RemoveToolTip, -1000
+    Reload
+return
+
+; --- PHÍM E ---
 *$e::
     if (toggle) {
-        if (!hasJob) {
-            ; --- LẦN 1: Ấn E chỉ để kích hoạt nhận nhiệm vụ ---
-            hasJob := true
-            Send {w up}{Shift up}     ; Thả Shift và W ra
-            Sleep, 50
-            Send {e down}             ; Ấn E 1 lần
-            Sleep, 50
-            Send {e up}
-            ; Lúc này game sẽ hiện nút E, F hoặc Y. Macro đứng chờ bạn ấn nút tiếp theo.
+        if (!inMenu) {
+            ; LẦN 1: Thả Shift + W -> Bấm E mở Menu -> Chờ game hiện lựa chọn E/F/Y
+            Send {w up}{Shift up}
+            Send {e}
+            inMenu := true
+            Sleep, 400  ; Chờ 0.4s để game hiện bảng tùy chọn E/F/Y (có thể điều chỉnh nếu game lag)
         } else {
-            ; --- LẦN 2: Đã nhận NV -> Ấn E lần nữa sẽ spam 20 lần ---
-            DoSpamLoop("e")
+            ; LẦN 2: Bạn chọn E -> Spam E 20 lần -> Tự đè lại Shift + W
+            SpamKey("e")
+            inMenu := false
         }
     } else {
         Send {e}
     }
 return
 
+; --- PHÍM F ---
 *$f::
     if (toggle) {
-        if (hasJob) {
-            DoSpamLoop("f")
+        if (inMenu) {
+            ; Chọn F từ Menu -> Spam F 20 lần -> Tự đè lại Shift + W
+            SpamKey("f")
+            inMenu := false
         } else {
+            ; Trường hợp bấm F trực tiếp ngoài menu
+            Send {w up}{Shift up}
             Send {f}
+            Sleep, 100
+            SpamKey("f")
+            inMenu := false
         }
     } else {
         Send {f}
     }
 return
 
+; --- PHÍM Y ---
 *$y::
     if (toggle) {
-        if (hasJob) {
-            DoSpamLoop("y")
+        if (inMenu) {
+            ; Chọn Y từ Menu -> Spam Y 20 lần -> Tự đè lại Shift + W
+            SpamKey("y")
+            inMenu := false
         } else {
+            ; Trường hợp bấm Y trực tiếp ngoài menu
+            Send {w up}{Shift up}
             Send {y}
+            Sleep, 100
+            SpamKey("y")
+            inMenu := false
         }
     } else {
         Send {y}
     }
 return
 
-; Hàm thực hiện vòng lặp spam 20 lần và tự động chạy tiếp (Shift + W)
-DoSpamLoop(key) {
-    global hasJob
-    Send {w up}{Shift up}         ; Đảm bảo thả Shift và W
-    Sleep, 100
-    Loop, 20 {
-        Send % "{" key " down}"   ; Giữ phím (E/F/Y)
+; Hàm thực hiện spam phím và tự động đè lại Shift + W khi hoàn thành
+SpamKey(k) {
+    global toggle
+    Loop, 40 {
+        if (!toggle)
+            break
+        Send {%k% down}
         Sleep, 50
-        Send % "{" key " up}"     ; Thả phím
-        Sleep, 450
+        Send {%k% up}
+        Sleep, 50
     }
-    hasJob := false               ; Reset lại trạng thái để điểm NV tiếp theo lặp lại quy trình
-    Send {Shift down}{w down}     ; Tự động đè lại Shift + W để chạy tiếp
+    if (toggle) {
+        Send {Shift down}{w down}
+    }
 }
 
 RemoveToolTip:
