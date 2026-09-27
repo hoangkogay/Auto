@@ -18,18 +18,30 @@ F8::
     }
 return
 
+; F12: TẮT Macro ngay lập tức (Dừng luôn vòng lặp đang chạy)
+F12::
+    toggle := false
+    Send {w up}{Shift up}{e up}{f up}{y up}
+    ToolTip, MACRO: DA TAT (F12)
+    SetTimer, RemoveToolTip, -1000
+    Reload
+return
+
 ; Ký tự '*' giúp nhận phím E kể cả khi đang giữ phím Shift
 *$e::
     if (toggle) {
         Send {w up}{Shift up}     ; Thả Shift và W ra
         Sleep, 100
         Loop, 20 {
+            if (!toggle)
+                break
             Send {e down}         ; Giữ E
             Sleep, 50             ; Giữ 0.05s để GTA 5 kịp nhận phím
             Send {e up}           ; Thả E
-            Sleep, 450            ; Chờ 0.45s (Tổng delay đúng 0.5s)
+            Sleep, 50            ; Chờ 0.45s (Tổng delay đúng 0.5s)
         }
-        Send {Shift down}{w down} ; Đè lại Shift + W
+        if (toggle)
+            Send {Shift down}{w down} ; Đè lại Shift + W
     } else {
         Send {e}
     }
@@ -40,12 +52,15 @@ return
         Send {w up}{Shift up}     ; Thả Shift và W ra
         Sleep, 100
         Loop, 20 {
+            if (!toggle)
+                break
             Send {f down}
             Sleep, 50
             Send {f up}
-            Sleep, 450
+            Sleep, 50
         }
-        Send {Shift down}{w down} ; Đè lại Shift + W
+        if (toggle)
+            Send {Shift down}{w down} ; Đè lại Shift + W
     } else {
         Send {f}
     }
@@ -56,12 +71,15 @@ return
         Send {w up}{Shift up}     ; Thả Shift và W ra
         Sleep, 100
         Loop, 20 {
+            if (!toggle)
+                break
             Send {y down}
             Sleep, 50
             Send {y up}
-            Sleep, 450
+            Sleep, 50
         }
-        Send {Shift down}{w down} ; Đè lại Shift + W
+        if (toggle)
+            Send {Shift down}{w down} ; Đè lại Shift + W
     } else {
         Send {y}
     }
